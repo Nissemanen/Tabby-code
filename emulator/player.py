@@ -2,10 +2,15 @@ import pygame
 import os
 from PIL import Image
 
+#Variables
 f = "."
 _w = 480
 _h = 360
+backdrops = {}
+sounds = {}
+sprites = {}
 
+#functions
 
 def setDataFolder(folder: str):
     global f
@@ -13,9 +18,9 @@ def setDataFolder(folder: str):
 
 
 def play(name: str):
-    dataDir = os.path.join(f, "data")
+    dataDir = os.path.join(f, "assets")
     if not os.path.exists(dataDir):
-        raise FileNotFoundError(f'Missing required "data" folder in "{os.path.join(f, "data")}". Please create it before running the game again.')
+        raise FileNotFoundError(f'Missing required "assets" folder in "{os.path.join(f, "assets")}". Please create it before running the game again.')
 
     _requiredList = ["backdrops", "sounds", "sprites"]
     _errors = []
@@ -49,7 +54,11 @@ def play(name: str):
                         for image in os.listdir(backdropsDir):
                             _name, _tail = os.path.splitext(image)
                             if _tail == ".svg" or _tail == ".png":
-                                pass
+                                if Image.open(os.path.join(backdropsDir, image)).size == (480, 360):
+                                    backdrops[_name] = pygame.image.load(os.path.join(backdropsDir, image))
+                                    print(f'Info: image "{image}" was successfully loaded as a backdrop.')
+                                else:
+                                    print(f'Caution: image "{image}" was not successfully loaded as a backdrop due to it being the right ratio! only images with 480 w, 360 h aspect ratio are acceptable backdrops.')
                             else:
                                 pygame.quit()
                                 raise ValueError(f'"{image}" is a "{_tail}" type file, only ".png" and ".svg" type files are usable files')
@@ -61,11 +70,23 @@ def play(name: str):
                         if _tail == ".wav":
                             pass
                         else:
+                            pygame.quit()
                             raise ValueError(f'"{sound}" is a "{_tail}" type file, only ".wav" type files are usable files')
 
                 case "sprites":
                     for sprite in os.listdir(os.path.join(dataDir, "sprites")):
-                        pass
+                        _name, _tail = os.path.splitext(sprite)
+                        if _tail == ".svg" or _tail == ".png":
+                            if Image.open(os.path.join(backdropsDir, sprite)).size == (480, 360):
+                                backdrops[_name] = pygame.image.load(os.path.join(backdropsDir, sprite))
+                                print(f'Info: image "{sprite}" was successfully loaded as a sprite.')
+                            else:
+                                print(
+                                    f'Caution: image "{sprite}" was not successfully loaded as a sprite due to it being the right ratio! only images with 480 w, 360 h aspect ratio are acceptable backdrops.')
+                        else:
+                            pygame.quit()
+                            raise ValueError(
+                                f'"{sprite}" is a "{_tail}" type file, only ".png" and ".svg" type files are usable files')
 
     screen = pygame.display.set_mode((_w, _h))
     clock = pygame.time.Clock()
