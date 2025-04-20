@@ -1,7 +1,33 @@
 import pygame
 import os
-from PIL import Image
 
+__all__ = ["run"]
+
+_w = 480
+_h = 360
+
+
+def run(name: str = None):
+    pygame.init()
+
+    _s = pygame.display.set_mode((_w, _h))
+    _t = pygame.time.Clock()
+    if name:
+        pygame.display.set_caption(name)
+    else:
+        pygame.display.set_caption("scratch")
+    pygame.display.set_icon(pygame.image.load(os.path.join(os.path.dirname(__file__), "scratch_logo.png")))
+
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+
+        pygame.display.update()
+        _t.tick(60)
+
+'''
 #Variables
 __all__ = ["run"]
 
@@ -99,7 +125,7 @@ def run(name: str=None):
 
         pygame.display.update()
 
-
+'''
 
 if __name__ == "__main__":
     run()

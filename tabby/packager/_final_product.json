@@ -1,0 +1,12 @@
+{
+  "targets": [
+    {
+      "isStage": true,
+      "name": "Stage"
+    },
+    {
+      "isStage": false,
+      "name": "Sprite1"
+    }
+  ]
+}
