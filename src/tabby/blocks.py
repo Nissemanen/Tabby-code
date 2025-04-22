@@ -94,7 +94,11 @@ class SoundBlocks:
     def stop_all_sounds(self):
         pass
 
+    def change_effect_by(self, effect, amount: float):
+        pass
 
+    def set_effect_to(self, effect, amount: float):
+        pass
 
 # Backdrop
 class BackdropLooksBlocks:

@@ -1,3 +1,3 @@
-import tabby
+from src import tabby
 
 sprite = tabby.Sprite()
