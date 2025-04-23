@@ -3,6 +3,7 @@ import os
 
 __all__ = []
 
+
 class Backdrop:
     def __init__(self):
         pass
