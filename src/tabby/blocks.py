@@ -1,6 +1,3 @@
-from pygame.examples.aliens import Player
-
-
 class MotionBlocks:
     def move(self, steps: float):
         pass
@@ -99,6 +96,48 @@ class SoundBlocks:
 
     def set_effect_to(self, effect, amount: float):
         pass
+
+    def clear_all_effects(self):
+        pass
+        
+    def change_volume(self):
+        pass
+
+    def set_volume(self):
+        pass
+
+class EventBlocks:
+    def when_green_flag_clicked(self, func):
+        def wrapper():
+            pass
+
+    def when_key_pressed(self, func, key):
+        def wrapper():
+            pass
+
+    def when_this_sprite_clicked(self, func):
+        def wrapper():
+            pass
+
+    def when_backdrop_switches_to(self, func, backdrop):
+        def wrapper():
+            pass
+
+    def when_x_is_bigger_then_y(self, func, first, second):
+        def wrapper():
+            pass
+
+    def when_i_recive(self, func, message):
+        def wrapper():
+            pass
+
+    def broudcast(self, message, wait: bool = False):
+        pass
+
+class ControlBlocks:
+    #finnish when i know what to do
+    pass
+    
 
 # Backdrop
 class BackdropLooksBlocks:
