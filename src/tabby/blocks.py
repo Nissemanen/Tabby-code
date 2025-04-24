@@ -138,25 +138,3 @@ class ControlBlocks:
     #finnish when i know what to do
     raise NotImplementedError("This method is not available.")
     
-
-# Backdrop
-class BackdropLooksBlocks:
-    def switch_backdrop_to(self, backdrop: str, wait: bool = False):
-        raise NotImplementedError("This method is not available.")
-
-    def next_backdrop(self):
-        raise NotImplementedError("This method is not available.")
-
-    def change_effect_by(self, effect, amount: float):
-        if effect not in ["color", "fisheye", "whirl", "pixelate", "mosaic", "brightness", "ghost"]:
-            raise ValueError(f'Invalid value for "effect". Expected "color", "fisheye", "whirl", "pixelate", "mosaic", "brightness" or "ghost"')
-        raise NotImplementedError("This method is not available.")
-
-    def set_effect_to(self, effect, amount: float):
-        if effect not in ["color", "fisheye", "whirl", "pixelate", "mosaic", "brightness", "ghost"]:
-            raise ValueError(
-                f'Invalid value for "effect". Expected "color", "fisheye", "whirl", "pixelate", "mosaic", "brightness" or "ghost"')
-        raise NotImplementedError("This method is not available.")
-
-    def clear_graphic_effects(self):
-        raise NotImplementedError("This method is not available.")
