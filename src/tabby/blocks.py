@@ -1,3 +1,7 @@
+import json
+from package import final_product_dir
+
+
 class MotionBlocks:
     def move(self, steps: float):
         raise NotImplementedError("This method is not available.")
