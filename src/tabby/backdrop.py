@@ -1,8 +1,11 @@
 import json
 import os
-from packager import final_product
 
 __all__ = ["switch_backdrop_to", "next_backdrop", "change_graphic_effect_by", "set_effect_to", "clear_graphic_effects", "play_sound", "stop_all_sounds", "change_sound_effect_by", "", "", "", ""]
+
+with open(os.path.join(os.path.dirname(__file__), "packager\\_final_produt.json"), "r") as f_p_dir:
+    
+    pass
 
 #Looks blocks
 def switch_backdrop_to(backdrop: str, wait: bool = False):
@@ -26,6 +29,8 @@ def clear_graphic_effects():
     raise NotImplementedError("This method is not available.")
 
 #Sound blocks
+volume = 100
+
 def play_sound(sound, until_done: bool = False):
         raise NotImplementedError("This method is not available.")
 
@@ -74,6 +79,7 @@ def when_i_recive(func, message):
 
 def broudcast(message, wait: bool = False):
     raise NotImplementedError("This method is not available.")
+    
 
 
 '''

@@ -1,6 +1,4 @@
 from src.tabby.packager.package import *
-from src.tabby.packager.package import append_final_product
-from src.tabby.packager.package import get_final_product
 from src.tabby.sprite import *
 from src.tabby.backdrop import *
 from src.tabby.blocks import *
