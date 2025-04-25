@@ -1,10 +1,15 @@
 import json
 import os
 
-__all__ = ["switch_backdrop_to", "next_backdrop", "change_graphic_effect_by", "set_effect_to", "clear_graphic_effects", "play_sound", "stop_all_sounds", "change_sound_effect_by", "", "", "", ""]
+__all__ = [
+    "switch_backdrop_to", "next_backdrop", "change_graphic_effect_by", "clear_all_graphic_effects", "play_sound",
+    "stop_all_sounds", "change_sound_effect_by", "set_sound_effect_to", "clear_all_sound_effects", "change_volume",
+    "set_volume", "when_green_flag_clicked", "when_key_pressed", "when_this_sprite_clicked", "when_backdrop_switches_to",
+    "when_x_is_bigger_then_y", "when_i_receive", "broadcast"
+]
 
-with open(os.path.join(os.path.dirname(__file__), "packager\\_final_produt.json"), "r") as f_p_dir:
-    
+_final_product = {}
+with open(os.path.join(os.path.dirname(__file__), "packager\\_final_product,json"), "r") as f:
     pass
 
 #Looks blocks
@@ -19,13 +24,13 @@ def change_graphic_effect_by(effect, amount: float):
         raise ValueError(f'Invalid value for "effect". Expected "color", "fisheye", "whirl", "pixelate", "mosaic", "brightness" or "ghost"')
     raise NotImplementedError("This method is not available.")
 
-def set_effect_to(effect, amount: float):
+def set_graphic_effect_to(effect, amount: float):
     if effect not in ["color", "fisheye", "whirl", "pixelate", "mosaic", "brightness", "ghost"]:
         raise ValueError(
             f'Invalid value for "effect". Expected "color", "fisheye", "whirl", "pixelate", "mosaic", "brightness" or "ghost"')
     raise NotImplementedError("This method is not available.")
 
-def clear_graphic_effects():
+def clear_all_graphic_effects():
     raise NotImplementedError("This method is not available.")
 
 #Sound blocks
@@ -40,10 +45,10 @@ def stop_all_sounds():
 def change_sound_effect_by(effect, amount: float):
     raise NotImplementedError("This method is not available.")
 
-def set_effect_to(effect, amount: float):
+def set_sound_effect_to(effect, amount: float):
     raise NotImplementedError("This method is not available.")
 
-def clear_all_effects():
+def clear_all_sound_effects():
     raise NotImplementedError("This method is not available.")
     
 def change_volume():
@@ -73,34 +78,12 @@ def when_x_is_bigger_then_y(func, first, second):
     def wrapper():
         raise NotImplementedError("This method is not available.")
 
-def when_i_recive(func, message):
+def when_i_receive(func, message):
     def wrapper():
         raise NotImplementedError("This method is not available.")
 
-def broudcast(message, wait: bool = False):
+def broadcast(message, wait: bool = False):
     raise NotImplementedError("This method is not available.")
-    
-
-
-'''
-class Backdrop():
-    def __new__(cls):
-        if cls._ is None:
-            cls._ = super().__new__(cls)
-        return cls._
-    
-    def __init__():
-        pass
-
-
-
-def start():
-    for target in get_final_product()["targets"]:
-        if target["isStage"]:
-            raise TypeError(f'tried to make a backdrop when one is already made')
-        else:
-            raise Exception
-'''
 
 
 if __name__ == "__main__":
