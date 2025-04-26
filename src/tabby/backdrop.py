@@ -1,5 +1,6 @@
 import json
 import os
+from packager import json_project
 
 __all__ = [
     "switch_backdrop_to", "next_backdrop", "change_graphic_effect_by", "clear_all_graphic_effects", "play_sound",
@@ -8,11 +9,9 @@ __all__ = [
     "when_x_is_bigger_then_y", "when_i_receive", "broadcast"
 ]
 
-_final_product = {}
-with open(os.path.join(os.path.dirname(__file__), "packager\\_final_product,json"), "r") as f:
-    pass
-
 #Looks blocks
+backdrop_number = None
+
 def switch_backdrop_to(backdrop: str, wait: bool = False):
     raise NotImplementedError("This method is not available.")
 
@@ -34,7 +33,7 @@ def clear_all_graphic_effects():
     raise NotImplementedError("This method is not available.")
 
 #Sound blocks
-volume = 100
+volume = None
 
 def play_sound(sound, until_done: bool = False):
         raise NotImplementedError("This method is not available.")
@@ -87,4 +86,4 @@ def broadcast(message, wait: bool = False):
 
 
 if __name__ == "__main__":
-    pass
+    print(json.dumps(_final_product, indent=2))
