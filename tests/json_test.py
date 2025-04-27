@@ -4,5 +4,20 @@ f = '{"targets":[{"isStage":true,"name":"Stage","variables":{"`jEk@4|i[#Fk?(8x)A
 
 jsonfile = json.loads(f)
 
+class testclass:
+    def __init__(self, name, position: (int, int)):
+        self.name = name
+        self.testjson = {"targets":[{"isStage": True, "name": "stage", "x": position[0], "y": position[1]}, {"isStage": False, "name": self.name}]}
 
-print(jsonfile)
+
+test = testclass("sprite", (0, 43))
+print(test.testjson)
+
+testjson = {"targets": [{"isStage": True, "name": "mark"}]}
+
+testjson["targets"] += [{"isStage": False, "name": "david"}]
+testjson["targets"] += [{"isStage": False, "name": "hally"}]
+
+#print(json.dumps(testjson, indent=2))
+
+print(json.dumps(jsonfile, indent=4))

@@ -1,6 +1,6 @@
 import json
 import os
-from packager import json_project
+from src.tabby import json_project
 
 __all__ = [
     "switch_backdrop_to", "next_backdrop", "change_graphic_effect_by", "clear_all_graphic_effects", "play_sound",
@@ -8,6 +8,11 @@ __all__ = [
     "set_volume", "when_green_flag_clicked", "when_key_pressed", "when_this_sprite_clicked", "when_backdrop_switches_to",
     "when_x_is_bigger_then_y", "when_i_receive", "broadcast"
 ]
+
+for target in json_project:
+    if target["isStage"]:
+        _data = target
+        exit()
 
 #Looks blocks
 backdrop_number = None

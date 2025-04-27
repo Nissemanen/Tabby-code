@@ -1,13 +1,17 @@
 import json
-from package import final_product_dir
+from src.tabby import json_project
 
 
 class MotionBlocks:
     def move(self, steps: float):
         raise NotImplementedError("This method is not available.")
 
-    def turn(self, degrees: float): # clockwise
-        raise NotImplementedError("This method is not available.")
+    def turn(self, degrees: float):
+
+        if degrees < 0:
+            pass
+        else:
+            pass
 
     def go_to(self, position):
         raise NotImplementedError("This method is not available.")
