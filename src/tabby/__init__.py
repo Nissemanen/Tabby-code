@@ -1,6 +1,6 @@
 from src.tabby.package import *
 from src.tabby.sprite import *
-from src.tabby.backdrop import *
+import src.tabby.backdrop
 from src.tabby.blocks import *
 
 version = 'sb3'

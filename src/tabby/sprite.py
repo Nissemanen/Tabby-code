@@ -4,14 +4,7 @@ import os
 
 __all__ = ["Sprite"]
 
-class Sprite(MotionBlocks, LooksBlocks, SoundBlocks, EventBlocks, ControlBlocks):
-
-    position = (0, 0)
-    size = 100
-    show = True
-    rotation = 90
-    rotation_style = "All_Around"
-    
+class Sprite(LooksBlocks, SoundBlocks, EventBlocks, ControlBlocks):
     def __init__(self, name: str,current_costume: int = 0, volume: int = 100, visible: bool = True, position: (int, int) = (0, 0), size: int = 100, direction: int = 90, draggable: bool = False, rotation_style: str = "all around"):
         _temp = 1
         for target in json_project["targets"]:
@@ -19,7 +12,9 @@ class Sprite(MotionBlocks, LooksBlocks, SoundBlocks, EventBlocks, ControlBlocks)
                 if target["layerOrder"] > _temp:
                     _temp = target["layerOrder"]
 
-        self.json = [{
+        self.sprite_num = len(json_project["targets"])
+
+        json_project["targets"] += [{
             "isStage": False,
             "name": name,
             "variables": [],
@@ -40,3 +35,46 @@ class Sprite(MotionBlocks, LooksBlocks, SoundBlocks, EventBlocks, ControlBlocks)
             "draggable": draggable,
             "rotationStyle": rotation_style
         }]
+    
+    #Motion Blocks
+    def move(self, steps: float):
+        json_project["targets"][self.sprite_num]["blocks"] += 
+
+
+    def turn(self, degrees: float):
+
+        if degrees < 0:
+            raise NotImplementedError("This method is not available.")
+
+        else:
+            raise NotImplementedError("This method is not available.")
+
+    def go_to(self, position):
+        raise NotImplementedError("This method is not available.")
+
+    def glide_to(self, seconds: float, position):
+        raise NotImplementedError("This method is not available.")
+
+    def point_in_direction(self, degrees: int): #degrees
+        raise NotImplementedError("This method is not available.")
+
+    def point_towards(self, thing): # position
+        raise NotImplementedError("This method is not available.")
+
+    def change_x_by(self, amount: int):
+        raise NotImplementedError("This method is not available.")
+
+    def set_x_to(self, amount: int):
+        raise NotImplementedError("This method is not available.")
+
+    def change_y_by(self, amount: int):
+        raise NotImplementedError("This method is not available.")
+
+    def set_y_to(self, amount: int):
+        raise NotImplementedError("This method is not available.")
+
+    def if_on_edge_bounce(self):
+        raise NotImplementedError("This method is not available.")
+
+    def set_rotation_style(self, style):
+        raise NotImplementedError("This method is not available.")

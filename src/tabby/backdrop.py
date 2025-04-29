@@ -15,7 +15,7 @@ for target in json_project:
         exit()
 
 #Looks blocks
-backdrop_number = None
+backdrop_number = _data["currentCostume"]
 
 def switch_backdrop_to(backdrop: str, wait: bool = False):
     raise NotImplementedError("This method is not available.")
