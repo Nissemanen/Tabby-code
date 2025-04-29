@@ -1,10 +1,12 @@
 from src.tabby.blocks import *
 from src.tabby import json_project
 import os
+import random
+import string
 
 __all__ = ["Sprite"]
 
-class Sprite(LooksBlocks, SoundBlocks, EventBlocks, ControlBlocks):
+class Sprite():
     def __init__(self, name: str,current_costume: int = 0, volume: int = 100, visible: bool = True, position: (int, int) = (0, 0), size: int = 100, direction: int = 90, draggable: bool = False, rotation_style: str = "all around"):
         _temp = 1
         for target in json_project["targets"]:
@@ -38,7 +40,9 @@ class Sprite(LooksBlocks, SoundBlocks, EventBlocks, ControlBlocks):
     
     #Motion Blocks
     def move(self, steps: float):
-        json_project["targets"][self.sprite_num]["blocks"] += 
+        json_project["targets"][self.sprite_num]["blocks"][''.join(c for c in (string.digits + string.ascii_letters + string.punctuation) if c not in '\\`"')] = {
+
+        }
 
 
     def turn(self, degrees: float):

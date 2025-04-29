@@ -9,10 +9,7 @@ __all__ = [
     "when_x_is_bigger_then_y", "when_i_receive", "broadcast"
 ]
 
-for target in json_project:
-    if target["isStage"]:
-        _data = target
-        exit()
+_data = json_project["targets"][0]
 
 #Looks blocks
 backdrop_number = _data["currentCostume"]
@@ -91,4 +88,4 @@ def broadcast(message, wait: bool = False):
 
 
 if __name__ == "__main__":
-    print(json.dumps(_final_product, indent=2))
+    pass
