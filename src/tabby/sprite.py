@@ -38,9 +38,16 @@ class Sprite():
             "rotationStyle": rotation_style
         }]
     
+    def __add_block(self, opcode, next=None, parent=None, inputs=None, fields=None, shadow=None, topLevel=None):
+        json_project["targets"][self.sprite_num]["blocks"][''.join(c for c in (string.digits + string.ascii_letters + string.punctuation) if c not in '\\`"')] = {
+            "opcode":opcode
+            
+        }
+
     #Motion Blocks
     def move(self, steps: float):
         json_project["targets"][self.sprite_num]["blocks"][''.join(c for c in (string.digits + string.ascii_letters + string.punctuation) if c not in '\\`"')] = {
+
 
         }
 
