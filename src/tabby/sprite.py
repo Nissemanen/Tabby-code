@@ -38,19 +38,44 @@ class Sprite():
             "rotationStyle": rotation_style
         }]
     
-    def __add_block(self, opcode, next=None, parent=None, inputs=None, fields=None, shadow=None, topLevel=None):
-        json_project["targets"][self.sprite_num]["blocks"][''.join(c for c in (string.digits + string.ascii_letters + string.punctuation) if c not in '\\`"')] = {
-            "opcode":opcode
-            
-        }
+    def __add_block(self, opcode, next=None, parent=None, inputs=None, fields=None, shadow:bool=False, topLevel:bool=False, x:int=0, y:int=0):
+        if topLevel == True:
+            json_project["targets"][self.sprite_num]["blocks"][''.join(c for c in (string.digits + string.ascii_letters + string.punctuation) if c not in '\\`"')] = {
+                "opcode":opcode,
+                "next":next,
+                "parent":parent,
+                "inputs":inputs,
+                "fields":fields,
+                "shadow":shadow,
+                "topLevel":True,
+                "x":x,
+                "y":y
+            }
+        else:
+            json_project["targets"][self.sprite_num]["blocks"][''.join(c for c in (string.digits + string.ascii_letters + string.punctuation) if c not in '\\`"')] = {
+                "opcode":opcode,
+                "next":next,
+                "parent":parent,
+                "inputs":inputs,
+                "fields":fields,
+                "shadow":shadow,
+                "topLevel":False
+
+            }
 
     #Motion Blocks
     def move(self, steps: float):
         json_project["targets"][self.sprite_num]["blocks"][''.join(c for c in (string.digits + string.ascii_letters + string.punctuation) if c not in '\\`"')] = {
-
-
-        }
-
+                "opcode":opcode,
+                "next":next,
+                "parent":parent,
+                "inputs":inputs,
+                "fields":fields,
+                "shadow":shadow,
+                "topLevel":True,
+                "x":x,
+                "y":y
+            }
 
     def turn(self, degrees: float):
 
