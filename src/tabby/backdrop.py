@@ -1,6 +1,6 @@
 import json
 import os
-from src.tabby import json_project
+from src.tabby.packager import json_project
 
 __all__ = [
     "switch_backdrop_to", "next_backdrop", "change_graphic_effect_by", "clear_all_graphic_effects", "play_sound",

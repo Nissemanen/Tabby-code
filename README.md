@@ -4,7 +4,10 @@ program scratch with python
 # Installation
 not implemented yet
 
-# Documentation
+# For other who want to remake
+
+## scratch json formating
+in the scratch json format there are three main items, `""`
 not yet
 
 # For Others

@@ -20,8 +20,25 @@ testjson = {"targets": [{"isStage": True, "name": "mark"}]}
 testjson["targets"] += [{"isStage": False, "name": "david"}]
 testjson["targets"] += [{"isStage": False, "name": "hally"}]
 
+initialized_sprites = []
+secont= ["yes", "no"]
+
+initialized_sprites.append("name")
+initialized_sprites.append("ello")
+
+if "yes" in initialized_sprites + secont:
+    print(initialized_sprites)
+
+"""
+def myfunc(inp: tuple[int, int]):
+    print(f'{inp[0]} and {inp[1]}')
+
+
+myfunc((34,10))
+
 #print(json.dumps(testjson, indent=2))
 print(string.printable)
 print(''.join(c for c in (string.digits + string.ascii_letters + string.punctuation) if c not in '\\`"'))
 print(''.join(random.choices(''.join(c for c in (string.digits + string.ascii_letters + string.punctuation) if c not in '\\`"'), k=20)))
-print(json.dumps(jsonfile, indent=4))
+#print(json.dumps(jsonfile, indent=4))
+"""
