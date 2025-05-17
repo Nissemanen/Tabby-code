@@ -29,6 +29,10 @@ initialized_sprites.append("ello")
 if "yes" in initialized_sprites + secont:
     print(initialized_sprites)
 
+
+print("event_whenflagcliked"[:5])
+print("motion_movesteps"[:5])
+
 """
 def myfunc(inp: tuple[int, int]):
     print(f'{inp[0]} and {inp[1]}')

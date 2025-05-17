@@ -5,8 +5,6 @@ import string
 
 __all__ = ["Sprite"]
 
-_random_safe_characters = ''.join(random.choices(''.join(c for c in (string.digits + string.ascii_letters + string.punctuation) if c not in '\\`"'), k=20))
-
 class Sprite:
     def __init__(self, name: str,current_costume: int = 0, volume: int = 100, visible: bool = True, position: tuple[int, int] = (0, 0), size: int = 100, direction: int = 90, draggable: bool = False, rotation_style: str = "all around"):
 
@@ -18,6 +16,7 @@ class Sprite:
                     _temp = target["layerOrder"] + 1
 
         self.__sprite_num = len(json_project["targets"])
+        self.__last_block = None
 
         json_project["targets"] += [{
             "isStage": False,
@@ -42,35 +41,61 @@ class Sprite:
         }]
 
         in_sp.append(f'{name}')
-    
-    def __add_block(self, opcode, nextC=None, parent=None, inputs:dict=None, fields:dict=None, shadow=False, topLevel=True, x=0, y=0, name=None):
+
+    @staticmethod
+    def __rndm_name():
+        return ''.join(random.choices(''.join(c for c in (string.digits + string.ascii_letters + string.punctuation) if c not in '\\`"'), k=20))
+
+    def __add_block(self, opcode, parent = None, inputs:dict=None, fields:dict=None, shadow=False, topLevel=True, x=0, y=0, name = None):
+
         if not name:
-            name = ''.join(random.choices(''.join(c for c in (string.digits + string.ascii_letters + string.punctuation) if c not in '\\`"'), k=20))
-        if topLevel:
-            json_project["targets"][self.sprite_num]["blocks"][name] = {
-                "opcode":opcode,
-                "next":nextC,
-                "parent":parent,
-                "inputs":inputs,
-                "fields":fields,
-                "shadow":shadow,
-                "topLevel":True,
-                "x":x,
-                "y":y
+            name = self.__rndm_name()
+
+        if self.__last_block:
+            if not parent:
+                parent = self.__last_block
+
+            json_project["targets"][self.__sprite_num]["blocks"][name] = {
+                "opcode": opcode,
+                "next": None,
+                "parent": parent,
+                "inputs": inputs,
+                "fields": fields,
+                "shadow": shadow,
+                "topLevel": False
             }
+
+            self.__last_block = name
+
+
+        elif opcode[:7] == "event_w":
+
+            json_project["targets"][self.__sprite_num]["blocks"][name] = {
+                "opcode": opcode,
+                "next": None,
+                "parent": None,
+                "inputs": inputs,
+                "fields": fields,
+                "shadow": shadow,
+                "topLevel": True,
+                "x":0,
+                "y":0
+            }
+
+            self.__last_block = name
+
         else:
-            json_project["targets"][self.sprite_num]["blocks"][name] = {
-                "opcode":opcode,
-                "next":nextC,
-                "parent":parent,
-                "inputs":inputs,
-                "fields":fields,
-                "shadow":shadow,
-                "topLevel":False
-
+            json_project["targets"][self.__sprite_num]["blocks"][name] = {
+                "opcode": opcode,
+                "next": None,
+                "parent": None,
+                "inputs": inputs,
+                "fields": fields,
+                "shadow": shadow,
+                "topLevel": True,
+                "x": x,
+                "y": y
             }
-
-        return name
 
     #Motion Blocks
     def move(self, steps: int):
@@ -81,7 +106,14 @@ class Sprite:
         :type steps: int
         :return:
         """
-        self.__add_block("motion_movesteps",inputs={"STEPS":[1,[4,f"{steps}"]]})
+
+        if self.__last_block:
+            _name = self.__rndm_name()
+            json_project["targets"][self.__sprite_num]["blocks"][self.__last_block]["next"] = _name
+            self.__add_block("motion_movesteps",inputs={"STEPS":[1,[4,f"{steps}"]]}, name=_name)
+        else:
+            print(SyntaxWarning("A block is not properly placed. It won’t be added unless it’s inside its own event block."))
+
 
     def turn(self, degrees: int):
         """
@@ -91,10 +123,17 @@ class Sprite:
         :type degrees: int
         :return:
         """
-        if degrees >= 0:
-            self.__add_block("motion_turnright",inputs={"DEGREES":[1,[4,f"{degrees}"]]})
+        if self.__last_block:
+            _name = self.__rndm_name()
+            json_project["targets"][self.__sprite_num]["blocks"][self.__last_block]["next"] = _name
+
+            if degrees >= 0:
+                self.__add_block("motion_turnright",inputs={"DEGREES":[1,[4,f"{degrees}"]]}, name=_name)
+
+            else:
+                self.__add_block("motion_turnleft",inputs={"DEGREES":[1,[4,f"{-degrees}"]]}, name=_name)
         else:
-            self.__add_block("motion_turnleft",inputs={"DEGREES":[1,[4,f"{-degrees}"]]})
+            print(SyntaxWarning("A block is not properly placed. It won’t be added unless it’s inside its own event block."))
 
     def go_to(self, position: tuple[int, int] | str):
         """
@@ -103,23 +142,29 @@ class Sprite:
         :param position:
         :return:
         """
+        if self.__last_block:
+            _name = self.__rndm_name()
+            json_project["targets"][self.__sprite_num]["blocks"][self.__last_block]["next"] = _name
 
-        if isinstance(position, tuple):
-            self.__add_block("motion_gotoxy",inputs={"X":[1,[4,f'{position[0]}']],"Y":[1,[4,f'{position[1]}']]})
-        elif position in ["mouse_pointer", "random"] + in_sp:
-            _name1 = ''.join(random.choices(''.join(c for c in (string.digits + string.ascii_letters + string.punctuation) if c not in '\\`"'), k=20))
-            _name2 = ''.join(random.choices(''.join(c for c in (string.digits + string.ascii_letters + string.punctuation) if c not in '\\`"'), k=20))
+            if isinstance(position, tuple):
+                self.__add_block("motion_gotoxy",inputs={"X":[1,[4,f'{position[0]}']],"Y":[1,[4,f'{position[1]}']]})
 
-            self.__add_block("motion_goto", inputs={"TO":[1, _name2]}, name=_name1)
+            elif position in ["mouse_pointer", "mouse_position", "random"] + in_sp:
+                _name2 = self.__rndm_name()
 
-            if position == "mouse_pointer":
-                self.__add_block("motion_goto_menu", fields={"TO":["_mouse_", None]}, parent=_name1, name=_name2)
-            elif position == "random":
-                self.__add_block("motion_goto_menu", fields={"TO":["_random_", None]}, parent=_name1, name=_name2)
+                self.__add_block("motion_goto", inputs={"TO":[1, _name2]}, name=_name)
+
+                if position == "mouse_pointer" or "mouse_position":
+                    self.__add_block("motion_goto_menu", fields={"TO":["_mouse_", None]}, parent=_name, name=_name2)
+
+                elif position == "random":
+                    self.__add_block("motion_goto_menu", fields={"TO":["_random_", None]}, parent=_name, name=_name2)
+
+                else:
+                    self.__add_block("motion_goto_menu", fields={"TO":[f'{position}', None]}, parent=_name, name=_name2)
+
             else:
-                self.__add_block("motion_goto_menu", fields={"TO":[f'{position}', None]}, parent=_name1, name=_name2)
-        else:
-            raise SyntaxError(f'incorrect input for "position". expected type tuple or str, got {type(position)}')
+                raise SyntaxError(f'incorrect input for "position". expected tuple, "mouse_pointer", "random" or sprites name, got {type(position)}')
 
     def glide_to(self, seconds: float, position):
         """
@@ -129,23 +174,27 @@ class Sprite:
         :param position:
         :return:
         """
+
         if isinstance(position, tuple):
             self.__add_block("motion_glidesecstoxy", inputs={"SECS":[1,[4,f"{seconds}"]],"X":[1,(4,f"{position[0]}")],"Y":[1,[4,f"{position[1]}"]]})
-        elif position in ["mouse_pointer", "random"] + in_sp:
-            _name1 = ''.join(random.choices(''.join(c for c in (string.digits + string.ascii_letters + string.punctuation) if c not in '\\`"'),k=20))
-            _name2 = ''.join(random.choices(''.join(c for c in (string.digits + string.ascii_letters + string.punctuation) if c not in '\\`"'),k=20))
+
+        elif position in ["mouse_pointer", "mouse_position", "random"] + in_sp:
+            _name1 = self.__rndm_name()
+            _name2 = self.__rndm_name()
 
             self.__add_block("motion_glideto", inputs={"SECS":[1,[4,f"{seconds}"]],"TO": [1, _name2]}, name=_name1)
 
-            if position == "mouse_pointer":
+            if position == "mouse_pointer" or "mouse_position":
                 self.__add_block("motion_glideto_menu", fields={"TO": ["_mouse_", None]}, parent=_name1, name=_name2)
+
             elif position == "random":
                 self.__add_block("motion_glideto_menu", fields={"TO": ["_random_", None]}, parent=_name1, name=_name2)
+
             else:
                 self.__add_block("motion_glideto_menu", fields={"TO": [position, None]}, parent=_name1, name=_name2)
-        else:
-            raise SyntaxError(f'incorrect input for "position". expected type tuple or str, got {type(position)}')
 
+        else:
+            raise SyntaxError(f'incorrect input for "position". expected tuple, "mouse_pointer", "random" or sprites name, got {type(position)}')
 
     def point_in_direction(self, degrees: int): #degrees
         """
@@ -165,8 +214,8 @@ class Sprite:
         :return:
         """
         if thing == "mouse_pointer" or thing in in_sp:
-            _name1 = ''.join(random.choices(''.join(c for c in (string.digits + string.ascii_letters + string.punctuation) if c not in '\\`"'),k=20))
-            _name2 = ''.join(random.choices(''.join(c for c in (string.digits + string.ascii_letters + string.punctuation) if c not in '\\`"'),k=20))
+            _name1 = self.__rndm_name()
+            _name2 = self.__rndm_name()
 
             self.__add_block("motion_pointtowards", inputs={"TOWARDS":[1, _name2]}, name=_name1)
             if thing == "mouse_pointer":
@@ -268,8 +317,13 @@ class Sprite:
 
     # Events
     def when_green_flag_clicked(self, func):
-        def wrapper():
-            raise NotImplementedError("This method is not available.")
+        if not self.__last_block:
+            self.__add_block("event_whenflagclicked", topLevel=True)
+            func()
+            self.__last_block = None
+        else:
+            raise SyntaxError("Event blocks must be top-level blocks and cannot be nested inside other event blocks.")
+
 
     def when_key_pressed(self, func, key):
         def wrapper():
