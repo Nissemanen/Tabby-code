@@ -1,12 +1,14 @@
-from src.tabby.packager import json_project
-from src.tabby.packager import initialized_sprites as in_sp
+from .packager import json_project
+from .packager import initialized_sprites as in_sp
 import random
 import string
 
 __all__ = ["Sprite"]
 
+
+
 class Sprite:
-    def __init__(self, name: str,current_costume: int = 0, volume: int = 100, visible: bool = True, position: tuple[int, int] = (0, 0), size: int = 100, direction: int = 90, draggable: bool = False, rotation_style: str = "all around"):
+    def __init__(self, name: str = None):
 
         _temp = 1
         for target in json_project["targets"]:
@@ -18,6 +20,9 @@ class Sprite:
         self.__sprite_num = len(json_project["targets"])
         self.__last_block = None
 
+        if not name:
+            name = f'Sprite{self.__sprite_num}'
+
         json_project["targets"] += [{
             "isStage": False,
             "name": name,
@@ -26,18 +31,18 @@ class Sprite:
             "broadcasts": {},
             "blocks": {},
             "comments": {},
-            "currentCostume": current_costume,
+            "currentCostume": 0,
             "costumes": [],
             "sounds": [],
-            "volume": volume,
+            "volume": 100,
             "layerOrder": _temp,
-            "visible": visible,
-            "x": position[0],
-            "y": position[1],
-            "size": size,
-            "direction": direction,
-            "draggable": draggable,
-            "rotationStyle": rotation_style
+            "visible": True,
+            "x": 0,
+            "y": 0,
+            "size": 100,
+            "direction": 90,
+            "draggable": False,
+            "rotationStyle": "all around"
         }]
 
         in_sp.append(f'{name}')

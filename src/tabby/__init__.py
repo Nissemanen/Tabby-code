@@ -1,4 +1,3 @@
-from src.tabby import packager
-from src.tabby import backdrop
-from src.tabby.sprite import *
-
+from . import packager
+from . import backdrop
+from .sprite import *

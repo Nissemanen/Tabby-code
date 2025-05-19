@@ -33,6 +33,21 @@ if "yes" in initialized_sprites + secont:
 print("event_whenflagcliked"[:5])
 print("motion_movesteps"[:5])
 
+
+def log_class(cls):
+    super(cls, cls).__init__(cls)
+
+class Sprite:
+    def __init__(self):
+        print(self.__name__)
+
+@log_class
+class Sprite5(Sprite):
+    pass
+
+
+
+
 """
 def myfunc(inp: tuple[int, int]):
     print(f'{inp[0]} and {inp[1]}')

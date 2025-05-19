@@ -1,7 +1,7 @@
 import os
 import json
 
-version = 3
+version = "3.0.0"
 initialized_sprites = []
 json_project = {
     "targets":[
@@ -23,7 +23,14 @@ json_project = {
             "videoState": "on",
             "textToSpeechLanguage": None
         }
-    ]
+    ],
+    "monitors":[],
+    "extensions":[],
+    "meta":{
+        "semver":version,
+        "vm": "11.0.0",
+        "agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 OPR/118.0.0.0"
+    }
 }
 
 def print_json_output_to_terminal(formated: bool = False):
