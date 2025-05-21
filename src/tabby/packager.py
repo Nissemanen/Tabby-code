@@ -2,7 +2,7 @@ import os
 import json
 
 version = "3.0.0"
-initialized_sprites = []
+sprites = []
 json_project = {
     "targets":[
         {

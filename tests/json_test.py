@@ -1,3 +1,17 @@
+"""
+init_sprites = ["stage"]
+
+def new_sprite(name):
+    init_sprites.append(name)
+    print(f'added {name} to "init_sprites". its the {len(init_sprites)} place')
+
+
+new_sprite("mike")
+new_sprite("daniel")
+new_sprite("angela")
+new_sprite("bob")
+
+
 import json
 import string
 import random
@@ -20,35 +34,45 @@ testjson = {"targets": [{"isStage": True, "name": "mark"}]}
 testjson["targets"] += [{"isStage": False, "name": "david"}]
 testjson["targets"] += [{"isStage": False, "name": "hally"}]
 
-initialized_sprites = []
+sprites = []
 secont= ["yes", "no"]
 
-initialized_sprites.append("name")
-initialized_sprites.append("ello")
+sprites.append("name")
+sprites.append("ello")
 
-if "yes" in initialized_sprites + secont:
-    print(initialized_sprites)
+if "yes" in sprites + secont:
+    print(sprites)
 
 
 print("event_whenflagcliked"[:5])
 print("motion_movesteps"[:5])
 
 
-def log_class(cls):
-    super(cls, cls).__init__(cls)
+def Sprite(cls) -> None:
+    cls()
 
-class Sprite:
+class Blocks:
     def __init__(self):
-        print(self.__name__)
+        self.__self = self
+        print(f'{type(self).__name__} is the name')
 
-@log_class
-class Sprite5(Sprite):
-    pass
+    @classmethod
+    def move(cls, steps):
+        print("moved 10 steps")
+
+    @classmethod
+    def start(cls, func):
+        print("Started!")
+        func(cls)
+
+@Sprite
+class Sprite5(Blocks):
+    @Blocks.start
+    def start(self):
+        self.move(10)
 
 
 
-
-"""
 def myfunc(inp: tuple[int, int]):
     print(f'{inp[0]} and {inp[1]}')
 
@@ -61,3 +85,11 @@ print(''.join(c for c in (string.digits + string.ascii_letters + string.punctuat
 print(''.join(random.choices(''.join(c for c in (string.digits + string.ascii_letters + string.punctuation) if c not in '\\`"'), k=20)))
 #print(json.dumps(jsonfile, indent=4))
 """
+
+
+class Sprite:
+    def __init__(self):
+        print(f'code output from "{type(self).__name__}"')
+
+    @classmethod
+    def start(cls, func):
