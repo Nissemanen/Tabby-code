@@ -4,12 +4,6 @@ program scratch with python
 # Installation
 not implemented yet
 
-# For other who want to remake
-
-## scratch json formating
-in the scratch json format there are three main items, `""`
-not yet
-
 # For Others
 If you want to remake/fix/make a better one (cause im absolutly not good at coding) i will have some simple scratch code documentation. such as how json files are structured or how other stuff in scratch works.
 
@@ -25,6 +19,6 @@ in `"monitors"` you find all the monitors with their positions and values.
 in `"extentions"` is where all the extentions are, such as the pen extention.
 in `"meta"` is all the metadata that the project has, this is usualy not tamperd with.
 
-# targets
+### targets
 every target has some core components, these are:
 `isStage`  kind of self explainitory
