@@ -14,13 +14,10 @@ the scratch sb3 file is just a fancy zip file. And beneath that is a json file w
 
 first of all there are four main objects. `"targets"`, `"monitors"`, `"extentions"` and `"meta"`
 
-its in `"targets"` where all the sprites and their data is stored.
-
-in `"monitors"` you find all the monitors with their positions and values.
-
-in `"extentions"` is where all the extentions are, such as the pen extention.
-
-in `"meta"` is all the metadata that the project has, this is usualy not tamperd with.
+its in `"targets"` where all the sprites and their data is stored.\n
+in `"monitors"` you find all the monitors with their positions and values.\n
+in `"extentions"` is where all the extentions are, such as the pen extention.\n
+in `"meta"` is all the metadata that the project has, this is usualy not tamperd with.\n
 
 ### targets
 every target has some core components, these are:
