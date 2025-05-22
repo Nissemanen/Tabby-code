@@ -1,8 +1,8 @@
 # Tabby-code
-program scratch with python
+this is a passion project to make it easier in the transition from block based coding to text based
 
 # Installation
-not implemented yet
+not implemented yet (will propably first be seen in the first version)
 
 # For Others
 If you want to remake/fix/make a better one (cause im absolutly not good at coding) i will have some simple scratch code documentation. such as how json files are structured or how other stuff in scratch works.
