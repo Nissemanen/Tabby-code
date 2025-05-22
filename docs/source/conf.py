@@ -9,7 +9,8 @@
 project = 'Tabby code'
 copyright = '2025, Nissemanen'
 author = 'Nissemanen'
-release = '0.0.0'
+release = '0'
+version = '0.0.0'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
