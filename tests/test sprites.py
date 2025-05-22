@@ -3,7 +3,7 @@ from src import tabby
 mySprite = tabby.Sprite("mySprite")
 
 @mySprite.when_flag_clicked
-def wgfc1():
+def when_green_flag():
     mySprite.move(5)
 
 
