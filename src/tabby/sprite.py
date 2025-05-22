@@ -1,5 +1,6 @@
 from .packager import json_project
 from .packager import sprites
+from .packager import print_json_output_to_terminal
 import random
 import string
 
@@ -46,23 +47,45 @@ class Sprite:
             inputs = {}
         if not name:
             name = self.__random_name()
-        
-        if not parent:
-            parent = self.__parent
-            if not parent:
-                topLevel = True
-                x = 0
-                y = 0
 
-        json_project["targets"][self.__sprite_num]["blocks"][name] = { # this adds the sprite to the final JSON code
+
+        json_project["targets"][self.__sprite_num]["blocks"][name] = {  # this adds the sprite to the final JSON code
             "opcode": opcode,
-            "next": None,
-            "parent": parent,
+            "next": child,
+            "parent": None,
             "inputs": inputs,
             "fields": fields,
             "shadow": shadow,
             "topLevel": False
         }
+
+
+        if not parent:
+            parent = self.__parent
+            if not parent:
+                x = 0
+                y = 0
+                json_project["targets"][self.__sprite_num]["blocks"][name]["topLevel"] = True # this goes in the newly made block and makes it top level
+                json_project["targets"][self.__sprite_num]["blocks"][name]["x"] = x           # i.e, it has no parents so it needs x y coordinates
+                json_project["targets"][self.__sprite_num]["blocks"][name]["y"] = y
+            else:
+                json_project["targets"][self.__sprite_num]["blocks"][self.__parent]["next"] = name
+
+
+        json_project["targets"][self.__sprite_num]["blocks"][name]["parent"] = parent
+
+
+    def move(self, steps):
+        self.__add_block("motion_movesteps", inputs={"STEPS":[1,[4,f'{steps}']]})
     
-    def when_flag_clicked(self):
-        pass
+    def when_flag_clicked(self, func):
+        if self.__parent:
+            raise SyntaxError("Event blocks must be top-level blocks and cannot be nested inside other event blocks.")
+
+        _name = self.__random_name()
+
+        self.__add_block("event_whenflagclicked")
+        self.__parent = _name
+        print_json_output_to_terminal(True)
+        func()
+        self.__parent = None

@@ -1,3 +1,4 @@
 from . import packager
 from . import backdrop
-from .old_sprite import *
+from . import old_sprite
+from .sprite import *
