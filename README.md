@@ -22,6 +22,10 @@ in `"meta"` is all the metadata that the project has, this is usualy not tamperd
 ### targets
 every target has some core components, these are:
 
-`isStage` : bool, if the target is the stage or not <br>
-`name` : str, the name of the sprite/stage <br>
-`variabels` : array, an array with all the variables
+`isStage` if the target is the stage or not <br>
+`name` the name of the sprite/stage <br>
+`variabels` an array with all the targets variables <br>
+`lists` an array with all the targets lists<br>
+`broadcasts` an array with all the targets broadcasts<br>
+`blocks` an array with all the targets blocks
+
