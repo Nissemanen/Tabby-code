@@ -12,6 +12,7 @@ import string
 class Sprite:
     def __init__(self, name:str):
         sprites.append(name)
+        self.__name = name
         self.__sprite_num = len(sprites)
         self.__parent = None
         
@@ -102,14 +103,21 @@ class Sprite:
         self.__add_block("motion_goto", inputs={"TO":[1, name2]}, name=name1)
         self.__add_block("motion_goto_menu", fields={"TO":[item, None]}, name=name2, parent=name2)
 
-    def go_to(self, place:tuple[int, int] | str):
-        if isinstance(place, tuple[int, int]:
-            pass
+    def go_to(self, placement:tuple[int, int] | str):
+        if isinstance(placement, tuple):
+
+            if not len(placement) == 2:
+                raise SyntaxError("")
+            self.go_to_position(placement)
+            return
         else:
-            if place in menu_items or sprite:
-                pass
-            elif custom_menu_items[place] in menu_items:
-                pass
+            if placement in menu_items or (sprites - self.__name):
+                self.go_to_thing(placement)
+                return
+            elif custom_menu_items[placement] in menu_items:
+                self.go_to_thing(placement)
+                return
+
     
     def point_in_direction(self, direction):
         self.__add_block("motion_pointindirection", inputs={"DIRECTION":[1,[8, f'{direction}']]})
@@ -121,10 +129,10 @@ class Sprite:
         self.__add_block("motion_pointtowards_menu", fields={"TOWARDS":[item, None]}, name=name2, parent=name2)
 
     def point(self, direction: int | str):
-        if isinstance(direction, tuple[int, int]):
+        if isinstance(direction, tuple):
             self.point_in_direction(direction)
         else:
-            if direction in menu_items or sprites:
+            if direction in menu_items or (sprites - self.__name):
                 self.point_towards(direction)
             elif custom_menu_items[direction] in menu_items:
                 self.point_towards(custom_menu_items[direction])
