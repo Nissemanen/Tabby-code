@@ -96,6 +96,21 @@ class Sprite:
     def go_to_position(self, position:tuple[int, int]):
         self.__add_block("motion_gotoxy", inputs={"X":[1,[4,f'{position[0]}']], "Y":[1,[4,f'{position[1]}']]})
 
+    def go_to_thing(self, item: str):
+        name1 = self.__random_name()
+        name2 = self.__random_name()
+        self.__add_block("motion_goto", inputs={"TO":[1, name2]}, name=name1)
+        self.__add_block("motion_goto_menu", fields={"TO":[item, None]}, name=name2, parent=name2)
+
+    def go_to(self, place:tuple[int, int] | str):
+        if isinstance(place, tuple[int, int]:
+            pass
+        else:
+            if place in menu_items or sprite:
+                pass
+            elif custom_menu_items[place] in menu_items:
+                pass
+    
     def point_in_direction(self, direction):
         self.__add_block("motion_pointindirection", inputs={"DIRECTION":[1,[8, f'{direction}']]})
 
@@ -106,7 +121,7 @@ class Sprite:
         self.__add_block("motion_pointtowards_menu", fields={"TOWARDS":[item, None]}, name=name2, parent=name2)
 
     def point(self, direction: int | str):
-        if isinstance(direction, int):
+        if isinstance(direction, tuple[int, int]):
             self.point_in_direction(direction)
         else:
             if direction in menu_items or sprites:
