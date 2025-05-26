@@ -1,6 +1,7 @@
 from .packager import json_project
 from .packager import sprites
-from .packager import print_json_output_to_terminal
+from .packager import menu_items
+from .packager import custom_menu_items
 import random
 import string
 
@@ -60,6 +61,7 @@ class Sprite:
         }
 
 
+
         if not parent:
             parent = self.__parent
             if not parent:
@@ -70,6 +72,7 @@ class Sprite:
                 json_project["targets"][self.__sprite_num]["blocks"][name]["y"] = y
             else:
                 json_project["targets"][self.__sprite_num]["blocks"][self.__parent]["next"] = name
+                self.__parent = name
 
 
         json_project["targets"][self.__sprite_num]["blocks"][name]["parent"] = parent
@@ -77,15 +80,47 @@ class Sprite:
 
     def move(self, steps):
         self.__add_block("motion_movesteps", inputs={"STEPS":[1,[4,f'{steps}']]})
-    
+
+    def turn_right(self, degrees):
+        self.__add_block("motion_turnright", inputs={"DEGREES":[1,[4,f'{degrees}']]})
+
+    def turn_left(self, degrees):
+        self.__add_block("motion_turnleft", inputs={"DEGREES":[1,[4,f'{degrees}']]})
+
+    def turn(self, degrees:int):
+        if degrees > -1:
+            self.turn_right(degrees)
+        else:
+            self.turn_left(-degrees)
+
+    def go_to_position(self, position:tuple[int, int]):
+        self.__add_block("motion_gotoxy", inputs={"X":[1,[4,f'{position[0]}']], "Y":[1,[4,f'{position[1]}']]})
+
+    def point_in_direction(self, direction):
+        self.__add_block("motion_pointindirection", inputs={"DIRECTION":[1,[8, f'{direction}']]})
+
+    def point_towards(self, item:str):
+        name1 = self.__random_name()
+        name2 = self.__random_name()
+        self.__add_block("motion_pointtowards", inputs={"TOWARDS":[1, name2]}, name=name1)
+        self.__add_block("motion_pointtowards_menu", fields={"TOWARDS":[item, None]}, name=name2, parent=name2)
+
+    def point(self, direction: int | str):
+        if isinstance(direction, int):
+            self.point_in_direction(direction)
+        else:
+            if direction in menu_items or sprites:
+                self.point_towards(direction)
+            elif custom_menu_items[direction] in menu_items:
+                self.point_towards(custom_menu_items[direction])
+
     def when_flag_clicked(self, func):
         if self.__parent:
             raise SyntaxError("Event blocks must be top-level blocks and cannot be nested inside other event blocks.")
 
         _name = self.__random_name()
 
-        self.__add_block("event_whenflagclicked")
+        self.__add_block("event_whenflagclicked", name=_name)
         self.__parent = _name
-        print_json_output_to_terminal(True)
         func()
         self.__parent = None
