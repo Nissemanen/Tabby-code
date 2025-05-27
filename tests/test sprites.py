@@ -1,13 +1,14 @@
 from src import tabby
 
 mySprite = tabby.Sprite("mySprite")
+sprite2 = tabby.Sprite("sprite2")
 
 @mySprite.when_flag_clicked
 def when_green_flag():
     mySprite.move(5)
     mySprite.turn_right(-90)
-    mySprite.point(50)
-    mySprite.point()
+    mySprite.point(35)
+    mySprite.go_to(1)
 
 
 

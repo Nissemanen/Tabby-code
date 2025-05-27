@@ -12,7 +12,7 @@ import string
 class Sprite:
     def __init__(self, name:str):
         sprites.append(name)
-        self.__name = name
+        self.name = name
         self.__sprite_num = len(sprites)
         self.__parent = None
         
@@ -104,19 +104,22 @@ class Sprite:
         self.__add_block("motion_goto_menu", fields={"TO":[item, None]}, name=name2, parent=name2)
 
     def go_to(self, placement:tuple[int, int] | str):
-        if isinstance(placement, tuple):
-
-            if not len(placement) == 2:
-                raise SyntaxError("")
+        if isinstance(placement, (int, int)):
             self.go_to_position(placement)
-            return
-        else:
-            if placement in menu_items or (sprites - self.__name):
+
+        elif isinstance(placement, str):
+            if placement in menu_items or sprites and placement != self.name:
                 self.go_to_thing(placement)
-                return
-            elif custom_menu_items[placement] in menu_items:
-                self.go_to_thing(placement)
-                return
+
+            else:
+                try:
+                    if custom_menu_items[placement]:
+                        self.go_to_thing(placement)
+
+                except KeyError:
+                    raise SyntaxError(f'{placement} is not a valid input.')
+
+
 
     
     def point_in_direction(self, direction):
@@ -129,13 +132,20 @@ class Sprite:
         self.__add_block("motion_pointtowards_menu", fields={"TOWARDS":[item, None]}, name=name2, parent=name2)
 
     def point(self, direction: int | str):
-        if isinstance(direction, tuple):
+        if isinstance(direction, int):
             self.point_in_direction(direction)
-        else:
-            if direction in menu_items or (sprites - self.__name):
+
+        elif isinstance(direction, str):
+            if direction in menu_items or sprites and direction != self.name:
                 self.point_towards(direction)
-            elif custom_menu_items[direction] in menu_items:
-                self.point_towards(custom_menu_items[direction])
+
+            else:
+                try:
+                    if custom_menu_items[direction]:
+                        self.point_towards(direction)
+
+                except KeyError:
+                    raise SyntaxError(f'{direction} is not a valid input.')
 
     def when_flag_clicked(self, func):
         if self.__parent:
