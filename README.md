@@ -1,6 +1,7 @@
 # Tabby-code
 
 > ### ta·bee
+> ------
 > a grey or brownish cat mottled or streaked with dark stripes.
 
 
