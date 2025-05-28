@@ -243,7 +243,7 @@ class Sprite:
 
 ### ### ### ### Sound
 
-    ...
+
 
 ### ### ### ### Events
 
@@ -258,6 +258,6 @@ class Sprite:
         func()
         self.__parent = None
 
-        ...
+
 
 ### ### ### ### Control
