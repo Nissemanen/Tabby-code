@@ -1,4 +1,9 @@
 # Tabby-code
+
+> ### ta·bee
+> a grey or brownish cat mottled or streaked with dark stripes.
+
+
 this is a passion project to make it easier in the transition from block based coding to text based
 
 # Installation
