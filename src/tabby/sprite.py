@@ -80,6 +80,7 @@ class Sprite:
 
         json_project["targets"][self.__sprite_num]["blocks"][name]["parent"] = parent
 
+### ### ### ### Motion
 
     def move(self, steps):
         self.__add_block("motion_movesteps", inputs={"STEPS":[1,[4,f'{steps}']]})
@@ -181,6 +182,71 @@ class Sprite:
         elif style in "dont rotate":
             self.__add_block("motion_setrotationstyle", fields={"STYLE":["don't rotate", None]})
 
+### ### ### ### Looks
+
+    def say_for_seconds(self, message:str, seconds:float):
+        self.__add_block("looks_sayforsecs", inputs={"MESSAGE":[1,[10, message]], "SECS":[1,[4,f'{seconds}']]})
+
+    def say(self, message:str):
+        self.__add_block("looks_say", inputs={"MESSAGE":[1,[10,message]]})
+
+    def think_for_seconds(self, message:str, seconds:float):
+        self.__add_block("looks_thinkforsecs", inputs={"MESSAGE":[1,[10, message]], "SECS":[1,[4,f'{seconds}']]})
+
+    def think(self, message: str):
+        self.__add_block("looks_think", inputs={"MESSAGE": [1, [10, message]]})
+
+    def switch_costume_to(self, costume): # "costume" should be "self.costumeName"
+        name1 = self.__random_name()
+        name2 = self.__random_name()
+        self.__add_block("looks_switchcostumento", inputs={"COSTUME":[1, name2]}, name=name1)
+        self.__add_block("looks_costume", fields={"COSTUME":[costume, None]}, name=name2, parent=name1)
+
+    def next_costume(self):
+        self.__add_block("looks_nextcostume")
+
+    def switch_backdrop_to(self, backdrop): # "backdrop" should be "backdrop.backdropName" or other such as "backdrop.nextBackdrop"
+        name1 = self.__random_name()
+        name2 = self.__random_name()
+        self.__add_block("looks_switchbackdropto", inputs={"BACKDROP":[1, name2]}, name=name1)
+        self.__add_block("looks_backdrops", fields={"BACKDROP":[backdrop, None]}, parent=name1, name=name2)
+
+    def next_backdrop(self):
+        self.__add_block("looks_nextbackdrop")
+
+    def change_size_by(self, amount:int):
+        self.__add_block("looks_changesizeby", inputs={"CHANGE":[1,[4,f'{amount}']]})
+
+    def set_size_to(self, value:int):
+        self.__add_block("looks_setsizeto", inputs={"SIZE":[1,[4,f'{value}']]})
+
+    def change_graphical_effect_by(self, effect, amount):
+        self.__add_block("looks_changeeffectby", inputs={"CHANGE":[1,[4,f'{amount}']]}, fields={"EFFECT":[effect, None]})
+
+    def set_graphical_effect_by(self, effect, value):
+        self.__add_block("looks_seteffectto", inputs={"VALUE":[1,[4,f'{value}']]}, fields={"EFFECT":[effect, None]})
+
+    def clear_graphical_effects(self):
+        self.__add_block("looks_cleargraphiceffects")
+
+    def show(self):
+        self.__add_block("looks_show")
+
+    def hide(self):
+        self.__add_block("looks_hide")
+
+    def go_to_layer(self, layer:str): #either "front" or "back"
+        self.__add_block("looks_gotofrontback", fields={"FRONT_BACK":[str(layer).lower(), None]})
+
+    def go_x_layers(self, direction:str, amount:int):
+        self.__add_block("looks_goforwardbackwardlayers", inputs={"NUM":[1,[7, f'{amount}']]}, fields={"FORWARD_BACKWARD":[str(direction).lower(), None]})
+
+### ### ### ### Sound
+
+    ...
+
+### ### ### ### Events
+
     def when_flag_clicked(self, func):
         if self.__parent:
             raise SyntaxError("Event blocks must be top-level blocks and cannot be nested inside other event blocks.")
@@ -191,3 +257,7 @@ class Sprite:
         self.__parent = _name
         func()
         self.__parent = None
+
+        ...
+
+### ### ### ### Control
