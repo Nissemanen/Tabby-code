@@ -1,7 +1,9 @@
-from .packager import json_project
-from .packager import sprites
-from .packager import menu_items
-from .packager import custom_menu_items
+from .packager import (
+    json_project,
+    sprites,
+    motion_menu_items,
+    custom_motion_menu_items
+)
 import random
 import string
 
@@ -97,55 +99,87 @@ class Sprite:
     def go_to_position(self, position:tuple[int, int]):
         self.__add_block("motion_gotoxy", inputs={"X":[1,[4,f'{position[0]}']], "Y":[1,[4,f'{position[1]}']]})
 
-    def go_to_thing(self, item: str):
+    def go_to_thing(self, thing: str):
         name1 = self.__random_name()
         name2 = self.__random_name()
         self.__add_block("motion_goto", inputs={"TO":[1, name2]}, name=name1)
-        self.__add_block("motion_goto_menu", fields={"TO":[item, None]}, name=name2, parent=name2)
+        self.__add_block("motion_goto_menu", fields={"TO":[thing, None]}, name=name2, parent=name2)
 
     def go_to(self, placement:tuple[int, int] | str):
-        if isinstance(placement, (int, int)):
+        if isinstance(placement, tuple) and len(placement) == 2 and all(isinstance(i, int) for i in placement):
             self.go_to_position(placement)
 
         elif isinstance(placement, str):
-            if placement in menu_items or sprites and placement != self.name:
+            if placement in motion_menu_items or sprites and placement != self.name:
                 self.go_to_thing(placement)
 
-            else:
-                try:
-                    if custom_menu_items[placement]:
-                        self.go_to_thing(placement)
+            elif placement in custom_motion_menu_items:
+                self.go_to_thing(custom_motion_menu_items[placement])
 
-                except KeyError:
-                    raise SyntaxError(f'{placement} is not a valid input.')
+    def glide_to_position(self, seconds:float, position:tuple[int, int]):
+        self.__add_block("motion_glidesecstoxy", inputs={"SECS":[1,[4,f'{seconds}']],"X":[1,[4,f'{position[0]}']],"Y":[1,[4,f'{position[1]}']]})
 
+    def glide_to_thing(self, seconds:float, thing:str):
+        name1 = self.__random_name()
+        name2 = self.__random_name()
+        self.__add_block("motion_glideto", inputs={"SECS":[1,[4,f'{seconds}']],"TO": [1, name2]}, name=name1)
+        self.__add_block("motion_glideto_menu", fields={"TO": [thing, None]}, name=name2, parent=name2)
 
+    def glide_to(self, seconds:float, thing:tuple[int, int] | str):
+        if isinstance(thing, tuple) and len(thing) == 2 and all(isinstance(i, int) for i in thing):
+            self.glide_to_position(seconds, thing)
 
-    
+        elif isinstance(thing, str):
+            if thing in motion_menu_items or sprites and thing != self.name:
+                self.glide_to_thing(seconds, thing)
+
+            elif thing in custom_motion_menu_items:
+                self.glide_to_thing(seconds, custom_motion_menu_items[thing])
+
     def point_in_direction(self, direction):
         self.__add_block("motion_pointindirection", inputs={"DIRECTION":[1,[8, f'{direction}']]})
 
-    def point_towards(self, item:str):
+    def point_towards(self, thing:str):
         name1 = self.__random_name()
         name2 = self.__random_name()
         self.__add_block("motion_pointtowards", inputs={"TOWARDS":[1, name2]}, name=name1)
-        self.__add_block("motion_pointtowards_menu", fields={"TOWARDS":[item, None]}, name=name2, parent=name2)
+        self.__add_block("motion_pointtowards_menu", fields={"TOWARDS":[thing, None]}, name=name2, parent=name2)
 
     def point(self, direction: int | str):
         if isinstance(direction, int):
             self.point_in_direction(direction)
 
         elif isinstance(direction, str):
-            if direction in menu_items or sprites and direction != self.name:
+            if direction in motion_menu_items or sprites and direction != self.name:
                 self.point_towards(direction)
 
-            else:
-                try:
-                    if custom_menu_items[direction]:
-                        self.point_towards(direction)
+            elif direction in custom_motion_menu_items:
+                self.go_to_thing(custom_motion_menu_items[direction])
 
-                except KeyError:
-                    raise SyntaxError(f'{direction} is not a valid input.')
+    def change_x_by(self, amount:int):
+        self.__add_block("motion_changexby", inputs={"DX":[1,[4,f'{amount}']]})
+
+    def set_x_to(self, amount:int):
+        self.__add_block("motion_setx", inputs={"X":[1,[4,f'{amount}']]})
+
+    def change_y_by(self, amount:int):
+        self.__add_block("motion_changeyby", inputs={"DY":[1,[4,f'{amount}']]})
+
+    def set_y_to(self, amount:int):
+        self.__add_block("motion_sety", inputs={"Y":[1,[4,f'{amount}']]})
+
+    def if_on_edge_bounce(self):
+        self.__add_block("motion_ifonedgebounce")
+
+    def set_rotation_style(self, style:str):
+        if style in ["left-right", "don't rotate", "all around"]:
+            self.__add_block("motion_setrotationstyle", fields={"STYLE":[f'{style}', None]})
+
+        elif style in "left right":
+            self.__add_block("motion_setrotationstyle", fields={"STYLE":['left-right', None]})
+
+        elif style in "dont rotate":
+            self.__add_block("motion_setrotationstyle", fields={"STYLE":["don't rotate", None]})
 
     def when_flag_clicked(self, func):
         if self.__parent:

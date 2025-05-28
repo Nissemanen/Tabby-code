@@ -34,8 +34,8 @@ json_project = {
     }
 }
 sprites = []
-menu_items = ["_mouse_", "_random_"] # here are all the "core" names for the inputs for menus
-custom_menu_items = {"mouse position":"_mouse_", "random":"_random_"} # if you make an extension which adds new menu items for all things (like "go to" or "glide to"), you can add custom names for them here for ese of use.
+motion_menu_items = ["_mouse_", "_random_"] # here are all the "core" names for the inputs for menus
+custom_motion_menu_items = {"mouse position": "_mouse_", "random": "_random_"} # if you make an extension which adds new menu items for all things (like "go to" or "glide to"), you can add custom names for them here for ese of use.
 
 def print_json_output_to_terminal(formated: bool = False):
     if formated:
