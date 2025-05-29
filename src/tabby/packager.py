@@ -43,6 +43,6 @@ def print_json_output_to_terminal(formated: bool = False):
     else:
         print(json_project)
 
-def package(path, version: int = version):
+def package(path):
     json.dump(json_project, path)
     print(f'Successfully packaged project to "{path}"')

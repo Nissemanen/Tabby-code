@@ -71,7 +71,7 @@ class Sprite:
                 x = 0
                 y = 0
                 json_project["targets"][self.__sprite_num]["blocks"][name]["topLevel"] = True # this goes in the newly made block and makes it top level
-                json_project["targets"][self.__sprite_num]["blocks"][name]["x"] = x           # i.e, it has no parents so it needs x y coordinates
+                json_project["targets"][self.__sprite_num]["blocks"][name]["x"] = x           # i.e. it has no parents so it needs x y coordinates
                 json_project["targets"][self.__sprite_num]["blocks"][name]["y"] = y
             else:
                 json_project["targets"][self.__sprite_num]["blocks"][self.__parent]["next"] = name
@@ -220,10 +220,10 @@ class Sprite:
     def set_size_to(self, value:int):
         self.__add_block("looks_setsizeto", inputs={"SIZE":[1,[4,f'{value}']]})
 
-    def change_graphical_effect_by(self, effect, amount):
+    def change_graphical_effect_by(self, effect, amount:int):
         self.__add_block("looks_changeeffectby", inputs={"CHANGE":[1,[4,f'{amount}']]}, fields={"EFFECT":[effect, None]})
 
-    def set_graphical_effect_by(self, effect, value):
+    def set_graphical_effect_by(self, effect, value:int):
         self.__add_block("looks_seteffectto", inputs={"VALUE":[1,[4,f'{value}']]}, fields={"EFFECT":[effect, None]})
 
     def clear_graphical_effects(self):
@@ -243,7 +243,35 @@ class Sprite:
 
 ### ### ### ### Sound
 
+    def play_sound_until_done(self, sound):
+        name1 = self.__random_name()
+        name2 = self.__random_name()
+        self.__add_block("sound_playuntildone", inputs={"SOUND_MENU":[1,name2]}, name=name1)
+        self.__add_block("sound_sounds_menu", fields={"SOUND_MENU":[sound, None]}, parent=name1, name=name2)
 
+    def start_sound(self, sound):
+        name1 = self.__random_name()
+        name2 = self.__random_name()
+        self.__add_block("sound_play", inputs={"SOUND_MENU":[1, name2]}, name=name1)
+        self.__add_block("sound_sounds_menu", fields={"SOUND_MENU":[name1, None]}, name=name2, parent=name1)
+
+    def stop_all_sounds(self):
+        self.__add_block("sound_stopallsounds")
+
+    def change_sound_effect_by(self, effect:str, amount:int):
+        self.__add_block("sound_changeeffectby", inputs={"VALUE":[1,[4,f'{amount}']]}, fields={"EFFECT":[effect, None]})
+
+    def set_sound_effect_to(self, effect:str, value:int):
+        self.__add_block("sound_seteffectto", inputs={"VALUE":[1,[4,f'{value}']]}, fields={"EFFECT":[effect, None]})
+
+    def clear_sound_effects(self):
+        self.__add_block("sound_cleareffects")
+
+    def change_volume_by(self, amount:int):
+        self.__add_block("sound_changevolumeby", inputs={"VOLUME":[1,[4,f'{amount}']]})
+
+    def set_volume_to(self, volume:int):
+        self.__add_block("sound_setvolumeto", inputs={"VOLUME":[1,[4,f'{volume}']]})
 
 ### ### ### ### Events
 
@@ -258,6 +286,48 @@ class Sprite:
         func()
         self.__parent = None
 
+    def when_key_pressed(self, func, key:str):
+        if self.__parent:
+            raise SyntaxError("Event blocks must be top-level blocks and cannot be nested inside other event blocks.")
 
+        _name = self.__random_name()
 
-### ### ### ### Control
+        self.__add_block("event_whenkeypressed", name=_name, fields={"KEY_OPTION":[str(key).lower(), None]})
+        self.__parent = _name
+        func()
+        self.__parent = None
+
+    def when_this_sprite_clicked(self, func):
+        if self.__parent:
+            raise SyntaxError("Event blocks must be top-level blocks and cannot be nested inside other event blocks.")
+
+        _name = self.__random_name()
+
+        self.__add_block("event_whenthisspriteclicked", name=_name)
+        self.__parent = _name
+        func()
+        self.__parent = None
+
+    def when_backdrop_switches_to(self, func, backdrop:str):
+        if self.__parent:
+            raise SyntaxError("Event blocks must be top-level blocks and cannot be nested inside other event blocks.")
+
+        _name = self.__random_name()
+
+        self.__add_block("event_whenbackdropswitchesto", name=_name)
+        self.__parent = _name
+        func()
+        self.__parent = None
+
+    def when_greater_then(self, func, thing:str, value:int):
+        if self.__parent:
+            raise SyntaxError("Event blocks must be top-level blocks and cannot be nested inside other event blocks.")
+
+        _name = self.__random_name()
+
+        self.__add_block("event_whengreaterthan", inputs={"VALUE":[1,[4,f'{value}']]}, fields={"WHENGREATHERTHANMENU":[str(thing).upper()]}, name=_name)
+        self.__parent = _name
+        func()
+        self.__parent = None
+
+    # not all event blocks are programmed yet. but any help would be really appreciated

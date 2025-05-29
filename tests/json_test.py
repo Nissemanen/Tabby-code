@@ -84,7 +84,6 @@ print(string.printable)
 print(''.join(c for c in (string.digits + string.ascii_letters + string.punctuation) if c not in '\\`"'))
 print(''.join(random.choices(''.join(c for c in (string.digits + string.ascii_letters + string.punctuation) if c not in '\\`"'), k=20)))
 #print(json.dumps(jsonfile, indent=4))
-"""
 
 
 class Sprite:
@@ -93,3 +92,24 @@ class Sprite:
 
     @classmethod
     def start(cls, func):
+
+
+
+
+class testClass:
+    testvar1 = "hello"
+
+    def __init__(self):
+        self.testvar2 = 5
+        print(self.thing3)
+
+    thing3 = 15.6
+
+    def printing(self):
+        print(self.testvar1)
+
+thing = testClass()
+thing2 = testClass
+
+thing.printing()
+"""
